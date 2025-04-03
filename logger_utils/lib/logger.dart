@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:talker_flutter/talker_flutter.dart';
+import 'package:talker_http_logger/talker_http_logger.dart';
 
 final logger = Logger.instance;
 
@@ -75,4 +76,8 @@ Interceptor loggerInterceptor() {
       errorPen: AnsiPen()..red(),
     ),
   );
+}
+
+TalkerHttpLogger httpLogger() {
+  return TalkerHttpLogger(talker: Logger.instance._talker);
 }
