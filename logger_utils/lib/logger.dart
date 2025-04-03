@@ -60,6 +60,19 @@ class Logger {
   void critical(dynamic msg, [Object? exception, StackTrace? stackTrace]) {
     instance._talker.critical(msg, exception, stackTrace);
   }
+
+  void reponse(dynamic msg, [Object? exception, StackTrace? stackTrace]) {
+    instance._talker.logCustom(
+      TalkerLog(
+        msg,
+        key: TalkerLogType.httpResponse.key,
+        exception: exception,
+        stackTrace: stackTrace,
+        time: DateTime.now(),
+        pen: AnsiPen()..blue(), // Blue for HTTP Response
+      ),
+    );
+  }
 }
 
 Interceptor loggerInterceptor() {
