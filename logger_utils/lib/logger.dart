@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 final logger = Logger.instance;
@@ -5,8 +7,25 @@ final logger = Logger.instance;
 class Logger {
   final Talker _talker;
   Logger._internal(this._talker);
-  static Logger init() {
-    final talker = TalkerFlutter.init();
+  static Logger init({Map<String, AnsiPen>? colors}) {
+    final talker = TalkerFlutter.init(
+      settings: TalkerSettings(
+        colors:
+            colors ??
+            {
+              TalkerLogType.httpRequest.key:
+                  AnsiPen()..magenta(), // HTTP Request - Magenta
+              TalkerLogType.httpResponse.key:
+                  AnsiPen()..blue(), // HTTP Response - Blue
+              TalkerLogType.error.key: AnsiPen()..red(), // Errors - Red
+              TalkerLogType.warning.key:
+                  AnsiPen()..yellow(), // Warnings - Yellow
+              TalkerLogType.info.key: AnsiPen()..cyan(), // Info - Cyan
+              TalkerLogType.debug.key: AnsiPen()..green(), // Debug - Green
+              TalkerLogType.verbose.key: AnsiPen()..gray(), // Verbose - Gray
+            },
+      ),
+    );
     return Logger._internal(talker);
   }
 
@@ -40,4 +59,20 @@ class Logger {
   void critical(dynamic msg, [Object? exception, StackTrace? stackTrace]) {
     instance._talker.critical(msg, exception, stackTrace);
   }
+}
+
+Interceptor loggerInterceptor() {
+  return TalkerDioLogger(
+    settings: TalkerDioLoggerSettings(
+      printResponseData: true,
+      printRequestData: false,
+      printResponseHeaders: true,
+      printRequestHeaders: false,
+      requestPen: AnsiPen()..blue(),
+      // Green http responses logs in console
+      responsePen: AnsiPen()..green(),
+      // Error http logs in console
+      errorPen: AnsiPen()..red(),
+    ),
+  );
 }

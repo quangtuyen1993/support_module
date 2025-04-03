@@ -1,7 +1,7 @@
 name: logger_utils
 description: "A new Flutter package project."
 version: 0.0.1
-homepage:
+homepage: none
 
 environment:
   sdk: ^3.7.2
@@ -11,7 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   talker_flutter: ^4.7.1
-
+  talker_dio_logger: ^4.7.1
+  dio: ^5.8.0+1
 dev_dependencies:
   flutter_test:
     sdk: flutter
