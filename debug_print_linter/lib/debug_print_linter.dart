@@ -42,7 +42,7 @@ class DebugPrintCustomLintCode extends DartLintRule {
       if (element is! FunctionElement) return;
 
       // Check if the method name is 'print'.
-      if (element.name != 'debugPrint') return;
+      if (element.name != 'debugPrint' && element.name != 'print') return;
 
       // Check if the method's library is 'dart:core'.
       if (!element.library.isDartCore) return;
